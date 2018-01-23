@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Producto</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ producto.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ producto.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ producto.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Ingredientes</th>
+                <td>{{ producto.ingredientes }}</td>
+            </tr>
+            <tr>
+                <th>Controlastock</th>
+                <td>{% if producto.controlaStock %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Cantidad</th>
+                <td>{{ producto.cantidad }}</td>
+            </tr>
+            <tr>
+                <th>Preciodeventa</th>
+                <td>{{ producto.precioDeVenta }}</td>
+            </tr>
+            <tr>
+                <th>Preciodecosto</th>
+                <td>{{ producto.precioDeCosto }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ producto.image }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if producto.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if producto.fechaCreacion %}{{ producto.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if producto.fechaActualizacion %}{{ producto.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('producto_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('producto_edit', { 'id': producto.id }) }}">Editar</a>
+
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

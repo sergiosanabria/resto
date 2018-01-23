@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+
+    {% block body %}
+
+        <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('cliente_new') }}">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Listado Cliente</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="data-table table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre completo</th>
+                                <th>Dirección</th>
+                                <th>Telefonos</th>
+                                <th>Activo</th>
+                                <th>Fecha actualizacion</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cliente in clientes %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('cliente_show', { 'id': cliente.id }) }}">{{ cliente.id }}</a>
+                                    </td>
+                                    <td> {{ cliente.nombreCompleto }}</td>
+                                    <td>
+                                        {% set direccion = cliente.firstDireccion %}
+                                        {% if direccion %}
+                                        <a data-lat="{{ direccion.latitud }}"
+                                           data-long="{{ direccion.longitud }}"
+                                           data-titulo="{{ cliente.nombreCompleto }}"
+                                           data-desc="{{ direccion }}"
+                                           href="javascript:void(0)"
+                                           class="btn-modal-map">
+                                            {{ direccion }}
+                                        </a>
+                                        {% else %}
+                                            No tiene dirección cargada
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ cliente.telefonoPrincipal }} |
+                                        {{ cliente.telefonoSecundario }}
+
+                                    </td>
+                                    <td>{% if cliente.activo %}Si{% else %}No{% endif %}</td>
+
+                                    <td>{% if cliente.fechaActualizacion %}{{ cliente.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>
+
+                                        <a class="btn btn-default"
+                                           href="{{ path('cliente_show', { 'id': cliente.id }) }}"><i
+                                                    class="fa fa-eye"></i></a>
+
+                                        <a class="btn btn-default"
+                                           href="{{ path('cliente_edit', { 'id': cliente.id }) }}"><i
+                                                    class="fa fa-edit"></i></a>
+                                        <a class="btn btn-default"
+                                           href="{{ path('usuarios_persona_new', { 'id': cliente.id }) }}"><i
+                                                    class="fa fa-user-plus"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-map">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Dirección del cliente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="embed-responsive-16by9 " id="map"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+    {% endblock %}
+{% block javascripts %}
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(".btn-modal-map").click(function () {
+
+                var lat = $(this).data('lat');
+                var long = $(this).data('long');
+                var titulo = $(this).data('titulo');
+                var desc = $(this).data('desc');
+
+                findLugarMapa(lat, long, 'map', 15, titulo, desc);
+
+                $('#modal-map').modal('toggle');
+
+            });
+
+        });
+
+    </script>
+{% endblock javascripts %}

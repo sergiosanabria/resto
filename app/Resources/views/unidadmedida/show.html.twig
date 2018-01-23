@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>UnidadMedida</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ unidadMedida.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ unidadMedida.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ unidadMedida.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Abreviatura</th>
+                <td>{{ unidadMedida.abreviatura }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if unidadMedida.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if unidadMedida.fechaCreacion %}{{ unidadMedida.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if unidadMedida.fechaActualizacion %}{{ unidadMedida.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('unidadmedida_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('unidadmedida_edit', { 'id': unidadMedida.id }) }}">Editar</a>
+
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

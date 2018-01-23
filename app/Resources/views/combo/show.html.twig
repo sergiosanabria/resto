@@ -1,0 +1,57 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Combo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ combo.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ combo.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ combo.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Porcentaje</th>
+                <td>{{ combo.porcentaje }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ combo.precio }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ combo.image }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if combo.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if combo.fechaCreacion %}{{ combo.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if combo.fechaActualizacion %}{{ combo.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('combo_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('combo_edit', { 'id': combo.id }) }}">Editar</a>
+
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

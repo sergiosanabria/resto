@@ -1,0 +1,195 @@
+{% extends '::base.html.twig' %}
+
+    {% block body %}
+        <div id="content-vue">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Nueva SectorMesa</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                {{ form_start(form) }}
+                <div class="box-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+
+                            {{ form_row(form.nombre) }}
+                            {{ form_row(form.descripcion) }}
+                            {{ form_row(form.cantidadColumnas) }}
+                            {{ form_row(form.cantidadMesas) }}
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 margin">
+                            <div class="text-center">
+                                <button @click="agregarMesaColumna()" type="button" class="btn btn-success">
+                                    Agregar columna <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div v-for="(mesas, indexCol) in mesaMatrix" :class="colMesas">
+
+                            <draggable :list="mesas" @start="drag=false" @end="drag=false" :options="{group:'people'}"
+                                       @change="log">
+                                <div v-for="(m, indexFila) in mesas" class="box box-warning">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">Mesa [[m.nombre]]</h3>
+
+                                        <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="">
+                                        <div class="form-group">
+                                            <label>Nombre </label><input
+                                                    type="text"
+                                                    v-model="m.nombre" required="required"
+                                                    class="form-control ">
+
+                                            <input
+                                                    type="hidden" :name="'mesas['+indexCol+']['+indexFila+']'"
+                                                    v-model="str(m)" required="required"
+                                                    class="form-control ">
+                                        </div>
+                                    </div>
+                                    <div class="box-footer">
+                                        <button @click="eliminarMesa(m.id)" type="button" class="btn btn-danger">
+                                            Eliminar <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                                <div class="text-center">
+                                    <button @click="agregarMesaFila(mesas)" type="button" class="btn btn-success">
+                                        Agregar mesa <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </draggable>
+                        </div>
+
+                    </div>
+
+                    <!-- /.row -->
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+            <div class="form-buttons">
+
+                <a class="btn btn-default" href="{{ path('sectormesa_index') }}">Volver </a>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block javascripts %}
+
+        <script src="{{ asset('bundles/app/vue/vue.js') }}"></script>
+        <script src="{{ asset('bundles/app/vue/plugins/axios.min.js') }}"></script>
+        <script src="{{ asset('bundles/app/vue/plugins/vuedraggable.min.js') }}"></script>
+        <script src="{{ asset('bundles/app/vue/plugins/draggable/Sortable.js') }}"></script>
+        <script src="{{ asset('bundles/app/vue/plugins/draggable/vuedraggable.min.js') }}"></script>
+
+        <script>
+
+            var app = new Vue({
+                delimiters: ['[[', ']]'],
+                el: '#content-vue',
+                data: {
+                    nombre: "{{ sectorMesa.nombre }}",
+                    descripcion: "{{ sectorMesa.descripcion }}",
+                    cantidadMesas: "{{ sectorMesa.cantidadMesas }}",
+                    cantidadColumnas: "{{ sectorMesa.cantidadColumnas }}",
+                    mesaMatrix: JSON.parse('{{ (sectorMesa.matrixMesa | json_encode)|raw }}'),
+                    colMesas: "",
+                    mesaId: 100000
+                },
+                watch: {
+                    cantidadColumnas(val) {
+
+                    }
+                },
+                methods: {
+                    add: function () {
+                        this.list.push({name: 'Juan'});
+                    },
+                    replace: function () {
+                        this.list = [{name: 'Edgard'}]
+                    },
+                    clone: function (el) {
+                        return {
+                            name: el.name + ' cloned'
+                        }
+                    },
+                    log: function (evt) {
+                        console.log(evt)
+                    },
+                    str (mesa) {
+                       return JSON.stringify(mesa)
+                    },
+                    agregarMesaFila(mesas) {
+                        this.mesaId++;
+                        mesas.push({
+                            nombre: "Nueva mesa",
+                            id: this.mesaId,
+                        });
+                    },
+                    agregarMesaColumna() {
+                        this.mesaMatrix.push([]);
+                        this.mesaId++;
+                        this.cantidadColumnas++;
+                        this.mesaMatrix[this.mesaMatrix.length - 1].push({
+                            nombre: "Nueva mesa",
+                            id: this.mesaId,
+                        });
+                        if (this.cantidadColumnas <= 12) {
+
+                            var col = parseInt(12 / this.cantidadColumnas);
+                            this.colMesas = "col-md-" + col;
+
+                        }
+
+                    },
+                    eliminarMesa(id) {
+                        for (let mesas of this.mesaMatrix) {
+                            for (let indexMesa in mesas) {
+                                let mesa = mesas[indexMesa];
+                                if (mesa.id == id) {
+                                    mesas.splice(indexMesa, 1);
+                                }
+                            }
+                        }
+                    },
+
+                },
+                mounted() {
+                    if (this.cantidadColumnas <= 12) {
+
+                        var col = parseInt(12 / this.cantidadColumnas);
+                        this.colMesas = "col-md-" + col;
+
+                    }
+                }
+            });
+
+        </script>
+    {% endblock %}
+    
+                                
+    

@@ -1,0 +1,27 @@
+api_index:
+    path:     /
+    defaults: { _controller: ApiBundle:Default:index }
+
+api_buscador:
+    path:     /buscador
+    defaults: { _controller: ApiBundle:Default:buscador }
+
+api_ramas_index:
+    path:     /ramas
+    defaults: { _controller: ApiBundle:Ramas:index }
+
+api_legislaciones_index:
+    path:     /legislaciones
+    defaults: { _controller: ApiBundle:Legislaciones:index }
+
+api_actualizaciones_index:
+    path:     /actualizaciones
+    defaults: { _controller: ApiBundle:Actualizaciones:index }
+
+api_actualizaciones_version:
+    path:     /actualizaciones/webAppVersion
+    defaults: { _controller: ApiBundle:Actualizaciones:webAppVersion }
+
+api_informacion:
+    path:     /informacion
+    defaults: { _controller: ApiBundle:Informacion:index }

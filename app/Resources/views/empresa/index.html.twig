@@ -1,0 +1,82 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('empresa_new') }}">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                </a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado Empresa</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Slogan</th>
+                                <th>Descripcion</th>
+                                <th>Color</th>
+                                <th>Controlastock</th>
+                                <th>Telefonoprincipal</th>
+                                <th>Telefonosecundario</th>
+                                <th>Mail</th>
+                                <th>Sitioweb</th>
+                                <th>Facebook</th>
+                                <th>Instagram</th>
+                                <th>Twitter</th>
+                                <th>Activo</th>
+                                <th>Fechacreacion</th>
+                                <th>Fechaactualizacion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for empresa in empresas %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('empresa_show', { 'id': empresa.id }) }}">{{ empresa.id }}</a>
+                                    </td>
+                                    <td>{{ empresa.nombre }}</td>
+                                    <td>{{ empresa.slogan }}</td>
+                                    <td>{{ empresa.descripcion }}</td>
+                                    <td>{{ empresa.color }}</td>
+                                    <td>{% if empresa.controlaStock %}Si{% else %}No{% endif %}</td>
+                                    <td>{{ empresa.telefonoPrincipal }}</td>
+                                    <td>{{ empresa.telefonoSecundario }}</td>
+                                    <td>{{ empresa.mail }}</td>
+                                    <td>{{ empresa.sitioWeb }}</td>
+                                    <td>{{ empresa.facebook }}</td>
+                                    <td>{{ empresa.instagram }}</td>
+                                    <td>{{ empresa.twitter }}</td>
+                                    <td>{% if empresa.activo %}Si{% else %}No{% endif %}</td>
+                                    <td>{% if empresa.fechaCreacion %}{{ empresa.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>{% if empresa.fechaActualizacion %}{{ empresa.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('empresa_show', { 'id': empresa.id }) }}"><i
+                                                        class="fa fa-fw fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('empresa_edit', { 'id': empresa.id }) }}"><i
+                                                        class="fa fa-fw fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

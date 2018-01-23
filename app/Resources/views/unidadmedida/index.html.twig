@@ -1,0 +1,66 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('unidadmedida_new') }}">Nuevo</a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado UnidadMedida</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Abreviatura</th>
+                                <th>Unidades</th>
+                                <th>Favorito</th>
+                                <th>Activo</th>
+                                <th>Fechacreacion</th>
+                                <th>Fechaactualizacion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for unidadMedida in unidadMedidas %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('unidadmedida_show', { 'id': unidadMedida.id }) }}">{{ unidadMedida.id }}</a>
+                                    </td>
+                                    <td>{{ unidadMedida.nombre }}</td>
+                                    <td>{{ unidadMedida.descripcion }}</td>
+                                    <td>{{ unidadMedida.abreviatura }}</td>
+                                    <td>{{ unidadMedida.unidades }}</td>
+                                    <td>{% if unidadMedida.favorito %}Si{% else %}No{% endif %}</td>
+                                    <td>{% if unidadMedida.activo %}Si{% else %}No{% endif %}</td>
+                                    <td>{% if unidadMedida.fechaCreacion %}{{ unidadMedida.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>{% if unidadMedida.fechaActualizacion %}{{ unidadMedida.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('unidadmedida_show', { 'id': unidadMedida.id }) }}"><i
+                                                        class="fa fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('unidadmedida_edit', { 'id': unidadMedida.id }) }}"><i
+                                                        class="fa fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

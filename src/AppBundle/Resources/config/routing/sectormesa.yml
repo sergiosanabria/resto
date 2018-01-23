@@ -1,0 +1,24 @@
+sectormesa_index:
+    path:     /
+    defaults: { _controller: "AppBundle:SectorMesa:index" }
+    methods:  GET
+
+sectormesa_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:SectorMesa:show" }
+    methods:  GET
+
+sectormesa_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:SectorMesa:new" }
+    methods:  [GET, POST]
+
+sectormesa_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:SectorMesa:edit" }
+    methods:  [GET, POST]
+
+sectormesa_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:SectorMesa:delete" }
+    methods:  DELETE

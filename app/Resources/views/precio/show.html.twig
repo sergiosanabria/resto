@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Precio</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ precio.id }}</td>
+            </tr>
+            <tr>
+                <th>Precio</th>
+                <td>{{ precio.precio }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if precio.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if precio.fechaCreacion %}{{ precio.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if precio.fechaActualizacion %}{{ precio.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('precio_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('precio_edit', { 'id': precio.id }) }}">Editar</a>
+
+
+    </div>
+{% endblock %}

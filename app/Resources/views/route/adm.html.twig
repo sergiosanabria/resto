@@ -1,0 +1,108 @@
+{% extends '::base.html.twig' %}
+
+    {% block body %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Listado Route</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive">
+                        <table class="data-table table table-bordered table-striped">
+                            <thead>
+                            <tr>
+
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Route</th>
+                                <th>Controller</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cName, controller in routes %}
+
+                                {% for route in controller %}
+
+                                    <tr>
+
+                                        <td>{{ route.nombre }}</td>
+                                        <td>{{ route.descripcion }}</td>
+                                        <td>{{ route.route }}</td>
+                                        <td>{{ cName }}</td>
+
+                                        <td>
+                                            <a class="btn btn-default"
+                                               href="{{ path('route_edit', { 'id': route.id }) }}"><i
+                                                        class="fa fa-fw fa-edit"></i></a>
+                                            {% if route.nuevo %}
+
+                                                <label class="label label-primary">
+                                                    Es nuevo
+                                                </label>
+
+                                            {% endif %}
+                                            {% if not route.activo %}
+                                                <button data-id="{{ route.id }}" data-activo="0" class="btn btn-success btn-set-activo">
+                                                    Activar <i class="fa fa-check"></i>
+                                                </button>
+                                            {% else %}
+                                                <button  data-id="{{ route.id }}"  data-activo="1" class="btn btn-danger btn-set-activo">
+                                                    Desactivar <i class="fa fa-remove"></i>
+                                                </button>
+                                            {% endif %}
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+
+{% block javascripts %}
+
+    <script>
+
+        $(document).ready(function () {
+            $("body").on('click', '.btn-set-activo ', function () {
+
+                var id = $(this).data('id');
+                var activo = parseInt($(this).data('activo'));
+
+                var btn = this;
+
+                $.getJSON("{{ path('route_ajax_set_activo') }}/" + id, function () {
+
+                    if (activo){
+                        $(btn).data('activo', "0");
+                        $(btn).html('Activar <i class="fa fa-check"></i>');
+                        $(btn).removeClass('btn-danger');
+                        $(btn).addClass('btn-success');
+
+
+                    }else{
+
+                        $(btn).data('activo', "1");
+                        $(btn).removeClass('btn-success', "0");
+                        $(btn).addClass('btn-danger', "0");
+                        $(btn).html('Desactivar <i class="fa fa-remove"></i>');
+
+                    }
+
+                });
+
+            });
+        });
+
+    </script>
+
+{% endblock %}

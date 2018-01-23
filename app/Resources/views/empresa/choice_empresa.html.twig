@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+    {% block body %}
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Elegir una empresa Empresa</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive">
+                        <ul class="users-list clearfix">
+                            {% for empresa in empresas %}
+                                <li>
+                                    <img src="{{ prefix_image }}/{{ empresa.image}}" alt="User Image">
+                                    <a class="users-list-name" href="#">{{ empresa.nombre }}</a>
+                                    <span class="users-list-date">{{ empresa.slogan }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}

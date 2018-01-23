@@ -1,0 +1,29 @@
+cliente_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Cliente:index" }
+    methods:  GET
+
+cliente_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Cliente:show" }
+    methods:  GET
+
+cliente_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Cliente:new" }
+    methods:  [GET, POST]
+
+cliente_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Cliente:edit" }
+    methods:  [GET, POST]
+
+cliente_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Cliente:delete" }
+    methods:  DELETE
+
+cliente_ajax_por_empresa:
+    path:     /cliente_ajax_por_empresa
+    defaults: { _controller: "AppBundle:Cliente:getPorEmpresa" }
+    methods:  GET

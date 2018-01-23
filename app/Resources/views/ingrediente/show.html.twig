@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Ingrediente</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ingrediente.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ingrediente.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ ingrediente.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('ingrediente_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('ingrediente_edit', { 'id': ingrediente.id }) }}">Editar</a>
+
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

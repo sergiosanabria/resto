@@ -1,0 +1,27 @@
+services:
+#    api.example:
+#        class: ApiBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    api.mapper:
+        class: ApiBundle\Services\Mapper
+        arguments: ['@assets.packages', '@router', '@vich_uploader.property_mapping_factory', '@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: api.mapper, alias: api.mapper }
+
+    api.paginator:
+        class: ApiBundle\Services\Paginator
+        tags:
+            - { name: api.paginator, alias: api.paginator }
+
+    api.queries:
+            class: ApiBundle\Services\Queries
+            arguments: ['@doctrine.orm.default_entity_manager']
+            tags:
+                - { name: api.queries, alias: api.queries }
+
+    updater.updater:
+        class: ApiBundle\Services\Updater
+        arguments: ['%kernel.root_dir%', '@doctrine.orm.default_entity_manager', '@api.mapper', '@api.queries']
+        tags:
+            - { name: updater.updater, alias: updater.updater }

@@ -1,0 +1,64 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('route_new') }}">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                </a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado Route</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Route</th>
+                                <th>Activo</th>
+                                <th>Fechacreacion</th>
+                                <th>Fechaactualizacion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for route in routes %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('route_show', { 'id': route.id }) }}">{{ route.id }}</a>
+                                    </td>
+                                    <td>{{ route.nombre }}</td>
+                                    <td>{{ route.descripcion }}</td>
+                                    <td>{{ route.route }}</td>
+                                    <td>{% if route.activo %}Si{% else %}No{% endif %}</td>
+                                    <td>{% if route.fechaCreacion %}{{ route.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>{% if route.fechaActualizacion %}{{ route.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('route_show', { 'id': route.id }) }}"><i
+                                                        class="fa fa-fw fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('route_edit', { 'id': route.id }) }}"><i
+                                                        class="fa fa-fw fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

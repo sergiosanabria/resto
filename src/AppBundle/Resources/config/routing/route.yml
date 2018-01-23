@@ -1,0 +1,34 @@
+route_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Route:adm" }
+    methods:  GET
+
+route_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Route:show" }
+    methods:  GET
+
+route_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Route:new" }
+    methods:  [GET, POST]
+
+route_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Route:edit" }
+    methods:  [GET, POST]
+
+#route_delete:
+#    path:     /{id}/delete
+#    defaults: { _controller: "AppBundle:Route:delete" }
+#    methods:  DELETE
+
+#route_amd:
+#    path:     /adm
+#    defaults: { _controller: "AppBundle:Route:adm" }
+
+route_ajax_set_activo:
+    path:     /route_ajax_set_activo/{id}
+    defaults: { _controller: "AppBundle:Route:setActivo", id: null }
+    methods:  GET
+

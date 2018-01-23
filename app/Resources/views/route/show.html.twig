@@ -1,0 +1,46 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>Route</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ route.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ route.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ route.descripcion }}</td>
+            </tr>
+            <tr>
+                <th>Route</th>
+                <td>{{ route.route }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if route.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if route.fechaCreacion %}{{ route.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if route.fechaActualizacion %}{{ route.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('route_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('route_edit', { 'id': route.id }) }}">Editar</a>
+
+    </div>
+{% endblock %}

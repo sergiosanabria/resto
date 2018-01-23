@@ -1,0 +1,29 @@
+ingrediente_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Ingrediente:index" }
+    methods:  GET
+
+ingrediente_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Ingrediente:show" }
+    methods:  GET
+
+ingrediente_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Ingrediente:new" }
+    methods:  [GET, POST]
+
+ingrediente_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Ingrediente:edit" }
+    methods:  [GET, POST]
+
+ingrediente_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Ingrediente:delete" }
+    methods:  DELETE
+
+ingrediente_ajax_por_empresa:
+    path:     /ingrediente_ajax_por_empresa
+    defaults: { _controller: "AppBundle:Ingrediente:getPorEmpresa" }
+    methods:  GET

@@ -1,0 +1,34 @@
+precio_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Precio:index" }
+    methods:  GET
+
+precio_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Precio:show" }
+    methods:  GET
+
+precio_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Precio:new" }
+    methods:  [GET, POST]
+
+precio_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Precio:edit" }
+    methods:  [GET, POST]
+
+precio_new_producto:
+    path:     /new/{tipo}/{id}
+    defaults: { _controller: "AppBundle:Precio:newHistorico", tipo: producto }
+    methods:  [GET, POST]
+
+precio_new_combo:
+    path:     /new/{tipo}/{id}
+    defaults: { _controller: "AppBundle:Precio:newHistorico", tipo: combo }
+    methods:  [GET, POST]
+
+precio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Precio:delete" }
+    methods:  DELETE

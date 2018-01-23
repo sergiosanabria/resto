@@ -1,0 +1,24 @@
+combo_index:
+    path:     /
+    defaults: { _controller: "AppBundle:Combo:index" }
+    methods:  GET
+
+combo_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:Combo:show" }
+    methods:  GET
+
+combo_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:Combo:new" }
+    methods:  [GET, POST]
+
+combo_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:Combo:edit" }
+    methods:  [GET, POST]
+
+combo_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:Combo:delete" }
+    methods:  DELETE

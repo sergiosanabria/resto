@@ -1,0 +1,55 @@
+{% block extends %}
+    {{ "{% extends '::base.html.twig' %}" }}
+{% endblock extends %}
+
+{% block body %}
+    {{ "{% block body %}" }}
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <h3 class="box-title">Nueva {{ entity }}</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i>
+                </button>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        {{ '{{ form_start(form) }}' }}
+        <div class="box-body">
+
+            <div class="row">
+                <div class="col-md-12">
+
+
+                    {{ '{{ form_widget(form) }}' }}
+
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar
+            </button>
+        </div>
+        {{ '{{ form_end(form) }}' }}
+    </div>
+
+    {% set hide_edit, hide_delete = true, true %}
+    {{ include('crud/views/others/record_actions.html.twig.twig') -}}
+    {{ "{% endblock %}" }}
+
+    {#<script>#}
+
+    {#var app = new Vue({#}
+    {#delimiters: ['[[', ']]'],#}
+    {#el: '#content-vue',#}
+    {#data: {},#}
+    {#methods: {},#}
+    {#mounted() {#}
+    {#}#}
+    {#});#}
+
+    {#</script>#}
+{% endblock body %}

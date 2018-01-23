@@ -1,0 +1,19 @@
+cliente :
+  type: rest
+  resource:     "@AppBundle/Controller/Rest/ClienteRestController.php"
+  name_prefix:  api_
+
+persona :
+  type: rest
+  resource:     "@AppBundle/Controller/Rest/PersonaRestController.php"
+  name_prefix:  api_
+
+usuario :
+  type: rest
+  resource:     "@AppBundle/Controller/Rest/UsuarioRestController.php"
+  name_prefix:  api_
+
+producto :
+  type: rest
+  resource:     "@AppBundle/Controller/Rest/ProductoRestController.php"
+  name_prefix:  api_

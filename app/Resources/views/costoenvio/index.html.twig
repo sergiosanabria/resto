@@ -1,0 +1,58 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('costoenvio_new') }}">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                </a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado CostoEnvio</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                                <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for costoEnvio in costoEnvios %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('costoenvio_show', { 'id': costoEnvio.id }) }}">{{ costoEnvio.id }}</a>
+                                    </td>
+                                    <td>{{ costoEnvio.nombre }}</td>
+                                    <td>{{ costoEnvio.descripcion }}</td>
+                                    <td>{{ costoEnvio.precio }}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('costoenvio_show', { 'id': costoEnvio.id }) }}"><i
+                                                        class="fa fa-fw fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('costoenvio_edit', { 'id': costoEnvio.id }) }}"><i
+                                                        class="fa fa-fw fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,71 @@
+app_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }
+
+direccion_ajax_set_activo:
+    path:     /direccion_ajax_set_activo/{id}
+    defaults: { _controller: "AppBundle:Default:setDireccionActivo", id: null }
+    methods:  GET
+
+app_sectormesa:
+        resource: "@AppBundle/Resources/config/routing/sectormesa.yml"
+        prefix:   /sectormesa
+
+app_categoria:
+    resource: "@AppBundle/Resources/config/routing/categoria.yml"
+    prefix:   /categoria
+
+app_unidadmedida:
+        resource: "@AppBundle/Resources/config/routing/unidadmedida.yml"
+        prefix:   /unidadmedida
+
+app_cliente:
+        resource: "@AppBundle/Resources/config/routing/cliente.yml"
+        prefix:   /cliente
+
+app_empresa:
+        resource: "@AppBundle/Resources/config/routing/empresa.yml"
+        prefix:   /empresa
+
+app_producto:
+        resource: "@AppBundle/Resources/config/routing/producto.yml"
+        prefix:   /producto
+
+app_costoenvio:
+        resource: "@AppBundle/Resources/config/routing/costoenvio.yml"
+        prefix:   /costoenvio
+
+app_ingrediente:
+        resource: "@AppBundle/Resources/config/routing/ingrediente.yml"
+        prefix:   /ingrediente
+
+app_precio:
+        resource: "@AppBundle/Resources/config/routing/precio.yml"
+        prefix:   /precio
+
+app_pedidocabecera:
+        resource: "@AppBundle/Resources/config/routing/pedidocabecera.yml"
+        prefix:   /pedidocabecera
+
+app_route:
+      resource: "@AppBundle/Resources/config/routing/route.yml"
+      prefix:   /route
+
+app_rol:
+        resource: "@AppBundle/Resources/config/routing/rol.yml"
+        prefix:   /rol
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /profile

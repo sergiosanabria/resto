@@ -1,0 +1,24 @@
+pedidocabecera_index:
+    path:     /
+    defaults: { _controller: "AppBundle:PedidoCabecera:index" }
+    methods:  GET
+
+pedidocabecera_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:PedidoCabecera:show" }
+    methods:  GET
+
+pedidocabecera_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:PedidoCabecera:new" }
+    methods:  [GET, POST]
+
+pedidocabecera_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:PedidoCabecera:edit" }
+    methods:  [GET, POST]
+
+pedidocabecera_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:PedidoCabecera:delete" }
+    methods:  DELETE

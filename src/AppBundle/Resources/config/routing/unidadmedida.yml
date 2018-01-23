@@ -1,0 +1,24 @@
+unidadmedida_index:
+    path:     /
+    defaults: { _controller: "AppBundle:UnidadMedida:index" }
+    methods:  GET
+
+unidadmedida_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:UnidadMedida:show" }
+    methods:  GET
+
+unidadmedida_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:UnidadMedida:new" }
+    methods:  [GET, POST]
+
+unidadmedida_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:UnidadMedida:edit" }
+    methods:  [GET, POST]
+
+unidadmedida_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:UnidadMedida:delete" }
+    methods:  DELETE

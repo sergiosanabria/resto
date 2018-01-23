@@ -1,0 +1,61 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <h1>PedidoCabecera</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ pedidoCabecera.id }}</td>
+            </tr>
+            <tr>
+                <th>Observacion</th>
+                <td>{{ pedidoCabecera.observacion }}</td>
+            </tr>
+            <tr>
+                <th>Delivery</th>
+                <td>{% if pedidoCabecera.delivery %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ pedidoCabecera.estado }}</td>
+            </tr>
+            <tr>
+                <th>Motivocancelacioncliente</th>
+                <td>{{ pedidoCabecera.motivoCancelacionCliente }}</td>
+            </tr>
+            <tr>
+                <th>Motivocancelacionempresa</th>
+                <td>{{ pedidoCabecera.motivoCancelacionEmpresa }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ pedidoCabecera.total }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{% if pedidoCabecera.activo %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechacreacion</th>
+                <td>{% if pedidoCabecera.fechaCreacion %}{{ pedidoCabecera.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fechaactualizacion</th>
+                <td>{% if pedidoCabecera.fechaActualizacion %}{{ pedidoCabecera.fechaActualizacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('pedidocabecera_index') }}">Volver </a>
+
+            <a class="btn btn-default" href="{{ path('pedidocabecera_edit', { 'id': pedidoCabecera.id }) }}">Editar</a>
+
+            {{ form_start(delete_form) }}
+                <input type="submit" class="btn btn-danger" value="Delete">
+            {{ form_end(delete_form) }}
+    </div>
+{% endblock %}

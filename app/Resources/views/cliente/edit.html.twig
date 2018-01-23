@@ -1,0 +1,120 @@
+{% extends '::base.html.twig' %}
+
+    {% block body %}
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">Editar Cliente</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            {{ form_start(form) }}
+            <div class="box-body">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.nombre) }}
+                        {{ form_row(form.fechaNacimiento) }}
+
+                    </div>
+
+                    <div class="col-md-6">
+                        {{ form_row(form.apellido) }}
+                        {{ form_row(form.sexo) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_row(form.perfil) }}
+                    </div>
+
+                    <div class="col-md-4">
+                        {{ form_row(form.telefonoPrincipal) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.telefonoSecundario) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.mail) }}
+                    </div>
+
+                    <div class="col-md-12 text-center">
+                        {{ form_row(form.imageFile) }}
+                    </div>
+                    <div class="col-md-4 table-responsive">
+                        <label>
+                            Direcciones alternativas
+                        </label>
+                        <table class="table table-striped">
+                            <thead>
+                            <th>Dirección</th>
+                            <th>Acción</th>
+                            </thead>
+                            <tbody>
+                            {% for d in cliente.getAllDirecciones %}
+
+                                {% if cliente.direccionPrincipal and d.id != cliente.direccionPrincipal.id %}
+                                    <tr id="tr-direccion-{{ d.id }}">
+                                        <td>{{ d.direccion }}</td>
+                                        <td>
+                                            <button type="button" data-id="{{ d.id }}"
+                                                    class="btn btn-danger btn-set-activo">
+                                                <i class="fa fa-remove"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-8 table-responsive">
+                        {{ form_row(form.direcciones) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_row(form.activo) }}
+                    </div>
+                </div>
+
+                <!-- /.row -->
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar
+                </button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+        <div class="form-buttons">
+
+            <a class="btn btn-default" href="{{ path('cliente_index') }}">Volver </a>
+
+        </div>
+    {% endblock %}
+{% block javascripts %}
+
+    <script>
+
+        $(document).ready(function () {
+            $("body").on('click', '.btn-set-activo ', function () {
+
+                var id = $(this).data('id');
+
+
+                var btn = this;
+
+                $.getJSON("{{ path('direccion_ajax_set_activo') }}/" + id, function () {
+
+                    $("#tr-direccion-" + id).remove();
+
+                });
+
+            });
+        });
+
+    </script>
+
+{% endblock %}

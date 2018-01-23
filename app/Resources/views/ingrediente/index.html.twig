@@ -1,0 +1,54 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('ingrediente_new') }}">Nuevo</a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado Ingrediente</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripcion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ingrediente in ingredientes %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('ingrediente_show', { 'id': ingrediente.id }) }}">{{ ingrediente.id }}</a>
+                                    </td>
+                                    <td>{{ ingrediente.nombre }}</td>
+                                    <td>{{ ingrediente.descripcion }}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('ingrediente_show', { 'id': ingrediente.id }) }}"><i
+                                                        class="fa fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('ingrediente_edit', { 'id': ingrediente.id }) }}"><i
+                                                        class="fa fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

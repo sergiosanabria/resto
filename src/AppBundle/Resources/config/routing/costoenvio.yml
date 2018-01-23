@@ -1,0 +1,24 @@
+costoenvio_index:
+    path:     /
+    defaults: { _controller: "AppBundle:CostoEnvio:index" }
+    methods:  GET
+
+costoenvio_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:CostoEnvio:show" }
+    methods:  GET
+
+costoenvio_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:CostoEnvio:new" }
+    methods:  [GET, POST]
+
+costoenvio_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:CostoEnvio:edit" }
+    methods:  [GET, POST]
+
+costoenvio_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:CostoEnvio:delete" }
+    methods:  DELETE

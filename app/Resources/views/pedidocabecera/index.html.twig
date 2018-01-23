@@ -1,0 +1,70 @@
+    {% extends '::base.html.twig' %}
+
+    {% block body %}
+
+    <div class="row">
+            <div class="col-md-3">
+                <a class="btn btn-primary margin-bottom" href="{{ path('pedidocabecera_new') }}">
+                    <i class="fa fa-plus-circle"></i> Nuevo
+                </a>
+            </div>
+        </div>    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Listado PedidoCabecera</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <table class="data-table table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>Id</th>
+                                <th>Observacion</th>
+                                <th>Delivery</th>
+                                <th>Estado</th>
+                                <th>Motivocancelacioncliente</th>
+                                <th>Motivocancelacionempresa</th>
+                                <th>Total</th>
+                                <th>Activo</th>
+                                <th>Fechacreacion</th>
+                                <th>Fechaactualizacion</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for pedidoCabecera in pedidoCabeceras %}
+                        <tr>
+                                    <td>
+                                        <a href="{{ path('pedidocabecera_show', { 'id': pedidoCabecera.id }) }}">{{ pedidoCabecera.id }}</a>
+                                    </td>
+                                    <td>{{ pedidoCabecera.observacion }}</td>
+                                    <td>{% if pedidoCabecera.delivery %}Si{% else %}No{% endif %}</td>
+                                    <td>{{ pedidoCabecera.estado }}</td>
+                                    <td>{{ pedidoCabecera.motivoCancelacionCliente }}</td>
+                                    <td>{{ pedidoCabecera.motivoCancelacionEmpresa }}</td>
+                                    <td>{{ pedidoCabecera.total }}</td>
+                                    <td>{% if pedidoCabecera.activo %}Si{% else %}No{% endif %}</td>
+                                    <td>{% if pedidoCabecera.fechaCreacion %}{{ pedidoCabecera.fechaCreacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>{% if pedidoCabecera.fechaActualizacion %}{{ pedidoCabecera.fechaActualizacion|date('d/m/Y H:i:s') }}{% endif %}</td>
+                                    <td>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('pedidocabecera_show', { 'id': pedidoCabecera.id }) }}"><i
+                                                        class="fa fa-fw fa-eye"></i></a>
+
+                                            <a class="btn btn-default"
+                                               href="{{ path('pedidocabecera_edit', { 'id': pedidoCabecera.id }) }}"><i
+                                                        class="fa fa-fw fa-edit"></i></a>
+                                    </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+    </div>
+
+    {% endblock %}

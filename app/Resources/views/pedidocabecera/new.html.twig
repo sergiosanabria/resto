@@ -1,0 +1,722 @@
+{% extends '::base.html.twig' %}
+    {% block style %}
+
+    {% endblock %}
+    {% block body %}
+        <div class="modal fade" id="modal-map">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Dirección del cliente</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="embed-responsive-16by9 " id="map"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div id="content-vue" v-cloak>
+
+            <div class="modal fade" id="modal-item">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Datos adicionales</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Observaciones </label>
+                                <textarea class="form-control" rows="3" v-model="itemSelected.obs"
+                                          placeholder="Observaciones..."></textarea>
+                            </div>
+                            <div class="table-responsive" v-if="itemSelected.producto">
+                                <table class="table table-striped ">
+                                    <tr>
+                                        <th>Ingrediente</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    <tr v-for="ing in itemSelected.producto.ingredientes">
+                                        <td>
+                                            [[ing.nombre]]
+                                        </td>
+                                        <td>
+                                            <button v-if="!tieneIngrediente(ing)" @click="sinIngrediente(ing)"
+                                                    class="btn btn-sm text-red">
+                                                <i class="fa fa-trash fa-fw"></i>
+                                            </button>
+                                            <button v-if="tieneIngrediente(ing)" @click="sinIngrediente(ing)"
+                                                    class="btn btn-default btn-sm text-green">
+                                                <i class="fa fa-check fa-fw"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+            <div class="pad margin no-print">
+                <div class="callout callout-info" style="margin-bottom: 0!important;">
+                    <h4><i class="fa fa-info"></i> Note:</h4>
+                    This page has been enhanced for printing. Click the print button at the bottom of the invoice to
+                    test.
+                </div>
+            </div>
+
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Invoice
+
+                        <small>#007612</small>
+                    </h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                    class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <section style="    margin: 10px 25px;">
+                        <!-- title row -->
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h2 class="page-header">
+                                    <i class="fa fa-globe"></i> AdminLTE, Inc.
+                                    <small class="pull-right">Date: 2/10/2014</small>
+                                </h2>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-md-6 invoice-col">
+
+                                {{ form_row(form.cliente ) }}
+
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-4 invoice-col">
+                                <address v-if="clienteData">
+                                    <strong>[[clienteData.nombreCompleto]]</strong><br>
+                                    <a href="javascript:void(0)"
+                                       class="btn-modal-map">
+                                        <i class="fa fa-map-marker  fa-fw"></i>
+                                        <span v-if="clienteData.direccion_principal">
+                                            [[clienteData.direccion_principal.direccion]]
+                                       </span>
+                                        <span v-else>
+                                            Cargar dirección
+                                        </span>
+                                    </a>
+                                    <br>
+                                    {#San Francisco, CA 94107<br>#}
+                                    <i class="fa fa-phone  fa-fw"></i> [[clienteData.telefono_principal]]<br>
+                                    <i class="fa fa-phone fa-fw"></i> [[clienteData.telefono_secundario]]<br>
+                                    <i class="fa fa-envelope-o fa-fw"></i> [[clienteData.mail]]
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-2 invoice-col">
+
+                                <b>Factura #007612</b><br>
+                                {#<br>#}
+                                {#<b>Order ID:</b> 4F3S8J<br>#}
+                                {#<b>Payment Due:</b> 2/22/2014<br>#}
+                                {#<b>Account:</b> 968-34567#}
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-xs-12 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+
+                                        <th>Cantidad</th>
+                                        <th>Producto</th>
+                                        <th>Detalles</th>
+                                        <th>Precio unitario</th>
+                                        <th>Subtotal</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="item in items">
+                                        <td>
+                                            <div v-if="item.producto.image" style="height: 50px; width: 50px;">
+                                                <img :src="item.producto.image" style="height: 50px; width: 50px;"
+                                                     alt="Product Image">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <input v-model="item.cantidad" type="number" class="form-control">
+                                        </td>
+                                        <td>
+                                            <v-select
+                                                    :debounce="250"
+                                                    :on-search="getProductos"
+                                                    :options="productos"
+                                                    placeholder="Buscar producto"
+                                                    label="text"
+                                                    v-model="item.producto"
+                                            >
+                                                 <span slot="no-options">
+                                                     No se han encontrado productos
+                                                    </span>
+                                            </v-select>
+                                        </td>
+                                        <td>
+                                            [[item.obs]]
+
+                                            <div v-if="item.sinIngredientes.length">
+                                                <div class="label label-danger ">Sin estos ingredientes:</div>
+                                                <div v-for="ing in item.sinIngredientes">
+                                                    [[ing.nombre]]
+                                                    <a title="Borrar" href="#" @click="sinIngrediente(ing)">
+                                                        <i class="fa fa-fw fa-remove text-red "></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-right">
+                                            <span v-if="item.producto">
+                                                $ [[item.producto.precio]]
+                                            </span>
+                                        </td>
+                                        <td class="text-right">
+                                          <span v-if="item.producto">
+                                              $ [[item.producto.precio * item.cantidad]]</span>
+                                        </td>
+                                        <td>
+                                            <button v-if="item.producto" class="btn btn-sm" @click="modalObs(item)">
+                                                <i class="fa fa-fw fa-list-ul "></i>
+                                            </button>
+                                            <button class="btn btn-sm text-red"
+                                                    @click="eliminarItem(item)">
+                                                <i class="fa fa-fw fa-trash "></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="7">
+                                            <button @click="agregarProducto()" type="button"
+                                                    class="btn btn-success pull-right"><i
+                                                        class="fa fa-plus-circle"></i>
+                                                Agregar producto
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-md-8" v-if="pedido.envio == 'llevar' ">
+                            </div>
+                            <div class="col-md-8" v-if="pedido.envio == 'mesa' ">
+                            </div>
+                            <div class="col-md-8" v-if="pedido.envio == 'delivery' ">
+                                <div v-if="clienteData">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <label> Direcciones</label>
+                                            <select tabindex="5" @change="changeDireccion()" class="form-control"
+                                                    v-model="pedido.direccion">
+                                                <option :value="dir.id" v-for="dir in clienteData.direcciones_json_all">
+                                                    [[dir.direccion]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Distancia lineal</label>
+                                            <select tabindex="6" @change="changeDireccion()" v-model="km"
+                                                    class="form-control">
+                                                <option value="500">500 metros</option>
+                                                <option value="1000">1000 metros</option>
+                                                <option value="1500">1500 metros</option>
+                                                <option value="2000">2000 metros</option>
+                                                <option value="3000">3000 metros</option>
+                                                <option value="4000">4000 metros</option>
+                                                <option value="5000">5000 metros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <th class="text-center">Distancia lineal en km</th>
+                                            <th class="text-center">Distancia de la ruta trazada en km</th>
+                                            <th class="text-center">Demora de envío estimada en min</th>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr>
+                                                <td> [[pedido.distanciaLineal]]</td>
+                                                <td> [[pedido.distanciaRuta]]</td>
+                                                <td>[[pedido.demoraEnvio]]</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+
+                                    <div class="col-md-12" id="map-delivery" style="min-height: 200px;">
+
+                                    </div>
+                                    {#<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">#}
+                                    {#Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning#}
+                                    {#heekya#}
+                                    {#handango#}
+                                    {#imeem plugg#}
+                                    {#dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.#}
+                                    {#</p>#}
+                                </div>
+                                <div v-else>
+                                    <div class="callout callout-info" style="margin-bottom: 0!important;">
+                                        <h4><i class="fa fa-info"></i> Atención:</h4>
+                                        Seleccioná un cliente para continuar
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-4">
+                                <p class="lead">Amount Due 2/22/2014</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Subtotal:</th>
+                                            <td class="text-right">[[getSubtotal()]]</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Envio:</th>
+                                            <td>
+                                                <select v-model="pedido.envio" @change=" changeEnvio() "
+                                                        class="form-control">
+                                                    <option value="llevar">Para llevar</option>
+                                                    <option value="delivery">Delivery</option>
+                                                    <option value="mesa">Para la mesa</option>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+                                        <tr v-if="pedido.envio == 'delivery'">
+                                            <th>Elegí el costo de envio</th>
+                                            <td class="text-right">
+                                                <select v-model="pedido.costoEnvio" class="form-control">
+                                                    <option v-for="c in costos" :value="c">[[c.nombre]] -
+                                                        $[[c.precio]]
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr v-if="pedido.envio == 'delivery'">
+                                            <th>
+                                                Costo de envio:
+                                            </th>
+                                            <td class="text-right" v-if="pedido.costoEnvio">
+                                                $[[pedido.costoEnvio.precio]]
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Shipping:</th>
+                                            <td>$5.80</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total:</th>
+                                            <td>$265.24</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- this row will not appear when printing -->
+                        <div class="row no-print">
+                            <div class="col-xs-12">
+                                <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                            class="fa fa-print"></i>
+                                    Print</a>
+                                <button type="button" class="btn btn-success pull-right"><i
+                                            class="fa fa-credit-card"></i>
+                                    Submit Payment
+                                </button>
+                                <button type="button" @click="fit()" class="btn btn-success pull-right"><i
+                                            class="fa fa-credit-card"></i>
+                                    MAPA
+                                </button>
+                                <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                                    <i class="fa fa-download"></i> Generate PDF
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="form-buttons">
+
+                <a class="btn btn-default" href="{{ path('precio_index') }}">Volver </a>
+            </div>
+        </div>
+
+    {% endblock %}
+
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script src="https://unpkg.com/vue-select@2.3.1"></script>
+
+    <script>
+
+        // Vue.config.delimiters = ['[[', ']]'];
+
+        Vue.component('v-select', VueSelect.VueSelect);
+
+
+        var app = new Vue({
+                delimiters: ['[[', ']]'],
+                el: '#content-vue',
+
+                data: {
+                    message: 'Hello Vue!',
+                    clienteData: null,
+                    items: [],
+                    itemSelected: {},
+                    productos: [],
+                    mapa: null,
+                    km: 1000,
+                    costos: JSON.parse('{{ costosEnvio|raw }}'),
+                    sectores: JSON.parse('{{ sectores|raw }}'),
+                    pedido: {
+                        envio: 'llevar',
+                        costoEnvio: null,
+                        distanciaLineal: 0,
+                        distanciaRuta: 0,
+                        demoraEnvio: 0,
+                    }
+
+
+                },
+                methods: {
+                    errorImg(e) {
+                        console.log(e);
+                        e.srcElement.src = "../../../application/img/logos/completo.png";
+                    }
+                    ,
+                    eliminarItem(item) {
+                        removeCollection(item.id, this.items);
+                    }
+                    ,
+                    sinIngrediente(ing) {
+                        let sinIng = findCollection(ing.id, this.itemSelected.sinIngredientes);
+
+                        if (sinIng) {
+                            removeCollection(ing.id, this.itemSelected.sinIngredientes);
+                        } else {
+                            this.itemSelected.sinIngredientes.push(ing);
+                        }
+                    }
+                    ,
+                    tieneIngrediente(ing) {
+                        let sinIng = findCollection(ing.id, this.itemSelected.sinIngredientes);
+                        return sinIng;
+                    }
+                    ,
+                    modalObs(item) {
+                        this.itemSelected = item;
+
+                        $('#modal-item').modal('toggle');
+                    }
+                    ,
+                    getSubtotal() {
+
+                        let total = 0.00;
+
+                        for (let item of this.items) {
+                            total += item.cantidad * item.producto.precio;
+                        }
+
+                        return total;
+                    }
+                    ,
+
+                    agregarProducto() {
+
+                        this.items.push({
+                            id: this.items.length + 1,
+                            sinIngredientes: [],
+                            cantidad: 1,
+                            producto: ''
+                        })
+                    },
+
+                    fit() {
+                        this.mapa.fitBounds([[-55.8931857, -27.3637], [-55.8970657, -27.3845335]]);
+                    },
+
+                    changeEnvio() {
+                        if (this.pedido.envio == 'delivery') {
+
+                            if (app.costos.length) {
+                                this.pedido.costoEnvio = this.costos[0];
+                            }
+
+                            setTimeout(function () {
+                                app.changeDireccion();
+
+                            }, 150);
+                        }
+                    },
+                    changeDireccion() {
+
+                        if (!this.pedido.direccion || !this.clienteData.direcciones_json_all) {
+                            return;
+                        }
+
+                        let direccion = findCollection(this.pedido.direccion, this.clienteData.direcciones_json_all);
+
+                        var start = [-55.8931857, -27.3637892];
+
+                        var end = [parseFloat(direccion.long), parseFloat(direccion.lat)];
+
+                        app.pedido.distanciaLineal = distance(start[1], start[0], end[1], end[0]).toFixed(2);
+
+                        var zoom = parseInt(18 - (app.distancia * 2));
+                        var zoom = 15;
+
+                        let mapa = findLugarMapa(end[1], end[0], "map-delivery", zoom, 'hola', 'quehace');
+
+                        this.mapa = mapa;
+
+                        var el = document.createElement('div');
+
+                        el.className = 'marker-restaurant';
+
+                        new mapboxgl.Marker(el)
+                            .setLngLat(start)
+                            .setPopup(new mapboxgl.Popup({offset: 25}) // add popups
+                                .setHTML('<h5>Mi empresa</h5><p>Queda acá</p>'))
+                            .addTo(mapa);
+
+
+                        mapa.center = start;
+
+
+                        mapa.on('load', function () {
+                            mapa.addSource("source_circle_500", {
+                                "type": "geojson",
+                                "data": {
+                                    "type": "FeatureCollection",
+                                    "features": [{
+                                        "type": "Feature",
+                                        "geometry": {
+                                            "type": "Point",
+                                            "coordinates": start
+                                        }
+                                    }]
+                                }
+                            });
+
+                            mapa.addLayer({
+                                "id": "circle500",
+                                "type": "circle",
+                                "source": "source_circle_500",
+                                "paint": {
+                                    "circle-radius": {
+                                        stops: [
+                                            [5, 1],
+                                            [15, parseFloat(app.km) * 0.62]
+                                        ],
+                                        base: 2
+                                    },
+                                    "circle-color": "red",
+                                    "circle-opacity": 0.6
+                                }
+                            });
+
+                            getRoute(mapa, start, end);
+                        });
+
+                    }
+                    ,
+
+                    getProductos(search, loading) {
+                        //loading(true)
+                        axios.get('{{ path('api_get_productos') }}', {
+                            q: search,
+                            limit: 8
+                        }).then(resp => {
+
+                            this.productos = resp.data;
+                            //loading(false)
+                        })
+                    }
+                }
+                ,
+                mounted() {
+                    // axios.get(server + 'paciente/ri/ajax_informacion').then((response) => {
+                    //     this.ris = response.data;
+                    // })
+
+                }
+            })
+        ;
+
+        function getRoute(mapa, start, end) {
+
+            var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&access_token=' + mapboxgl.accessToken;
+
+            $.ajax({
+                method: 'GET',
+                url: directionsRequest,
+            }).done(function (data) {
+                var route = data.routes[0];
+                app.pedido.distanciaRuta = route.distance;
+                app.pedido.demoraEnvio = secondsFormat(parseInt(route.duration));
+                mapa.addLayer({
+                    id: 'route',
+                    type: 'line',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: route.geometry
+
+                            // geometry: {
+                            //     type: "LineString",
+                            //     coordinates: [
+                            //         start, end
+                            //     ]
+                            // }
+                        }
+                    },
+                    paint: {
+                        'line-width': 2
+                    }
+                });
+                mapa.addLayer({
+                    id: 'start',
+                    type: 'circle',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: start
+                            }
+                        }
+                    }
+                });
+                mapa.addLayer({
+                    id: 'end',
+                    type: 'circle',
+                    source: {
+                        type: 'geojson',
+                        data: {
+                            type: 'Feature',
+                            geometry: {
+                                type: 'Point',
+                                coordinates: end
+                            }
+                        }
+                    }
+                });
+
+
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            $("body").on('click', '.btn-modal-map', function () {
+
+                var lat = app.clienteData.direccion_principal.lat;
+                var long = app.clienteData.direccion_principal.long;
+                var titulo = app.clienteData.nombreCompleto;
+                var desc = app.clienteData.direccion_principal.direccion;
+
+                findLugarMapa(lat, long, 'map', 15, titulo, desc);
+
+                $('#modal-map').modal('toggle');
+
+            });
+
+            $("#{{ form.cliente.vars.id }}").change(function () {
+
+                $.getJSON("{{ path('api_get_cliente') }}", {
+                    id: $(this).val()
+                }, function (json) {
+                    app.clienteData = json;
+
+                    if (app.clienteData.direcciones_json_all && app.clienteData.direccion_principal) {
+
+                        app.pedido.direccion = app.clienteData.direccion_principal.id;
+                        if (app.pedido.envio == 'delivery') {
+                            setTimeout(function () {
+                                app.changeDireccion();
+                            }, 150);
+                        }
+                    }
+
+                });
+            })
+        });
+
+        $(document).keypress(function (e) {
+            switch (e.which) {
+                // user presses the "a"
+                case 43:
+                    window.app.agregarProducto();
+                    break;
+            }
+        });
+    </script>
+{% endblock %}

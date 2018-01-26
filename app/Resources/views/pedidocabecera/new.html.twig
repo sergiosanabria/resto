@@ -255,6 +255,52 @@
                             <div class="col-md-8" v-if="pedido.envio == 'llevar' ">
                             </div>
                             <div class="col-md-8" v-if="pedido.envio == 'mesa' ">
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li v-for="(sector, indexSector) in sectores"
+                                            :class="indexSector==0?'active':''">
+                                            <a :href="'#tab_'+sector.id" data-toggle="tab">
+                                                [[sector.nombre]] [[indexSector]]</a>
+                                        </li>
+
+
+                                    </ul>
+                                    <div class="tab-content">
+
+                                        <div v-for="(sector, indexSector) in sectores"
+                                             class="tab-pane" :class="indexSector==0?'active':''"
+                                             :id="'tab_'+sector.id">
+                                            <div class="row">
+                                                <div v-for="(mesas, indexCol) in sector.mesas"
+                                                     :class="getColClass(sector.cantidadColumnas)">
+
+                                                    <div v-for="(m, indexFila) in mesas">
+
+                                                        <a @click="selectMesa(m)" v-if="m.estado == 'libre'"
+                                                           class="btn btn-app">
+                                                            <i class="fa fa-table"></i> [[m.nombre]] [[m.estado]]
+
+                                                            <span v-if="m.id == pedido.mesa.id" class="text-green">
+                                                                <i class="fa fa-check-circle"></i>
+                                                           </span>
+                                                        </a>
+
+
+                                                        <a v-if="m.estado != 'libre' && m.select" class="btn btn-app">
+                                                           <span class="text-red">
+                                                                <i class="fa fa-remove "></i> [[m.nombre]] seleccionada
+                                                           </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                    <!-- /.tab-content -->
+                                </div>
                             </div>
                             <div class="col-md-8" v-if="pedido.envio == 'delivery' ">
                                 <div v-if="clienteData">
@@ -281,6 +327,13 @@
                                                 <option value="5000">5000 metros</option>
                                             </select>
                                         </div>
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                <label>Dirección</label>
+                                                <input type="text" v-model="pedido.direccionText" class="form-control" placeholder="Ingrese alguna informacón adicional al domicilio">
+                                                <span class="help-block">Puede agregar algún otro dato al domicilio</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-12 table-responsive">
                                         <table class="table table-striped">
@@ -305,13 +358,7 @@
                                     <div class="col-md-12" id="map-delivery" style="min-height: 200px;">
 
                                     </div>
-                                    {#<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">#}
-                                    {#Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning#}
-                                    {#heekya#}
-                                    {#handango#}
-                                    {#imeem plugg#}
-                                    {#dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.#}
-                                    {#</p>#}
+
                                 </div>
                                 <div v-else>
                                     <div class="callout callout-info" style="margin-bottom: 0!important;">
@@ -323,7 +370,6 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-md-4">
-                                <p class="lead">Amount Due 2/22/2014</p>
 
                                 <div class="table-responsive">
                                     <table class="table">
@@ -439,6 +485,8 @@
                         distanciaLineal: 0,
                         distanciaRuta: 0,
                         demoraEnvio: 0,
+                        mesa: {},
+                        direccionText:""
                     }
 
 
@@ -500,6 +548,18 @@
                         this.mapa.fitBounds([[-55.8931857, -27.3637], [-55.8970657, -27.3845335]]);
                     },
 
+                    getColClass(cantidadColumnas) {
+                        var col = parseInt(12 / cantidadColumnas);
+
+                        return "col-md-" + col;
+
+                    },
+
+                    selectMesa(mesa) {
+                        this.pedido.mesa = mesa;
+
+                    },
+
                     changeEnvio() {
                         if (this.pedido.envio == 'delivery') {
 
@@ -520,6 +580,8 @@
                         }
 
                         let direccion = findCollection(this.pedido.direccion, this.clienteData.direcciones_json_all);
+
+                        this.pedido.direccionText = direccion.direccion;
 
                         var start = [-55.8931857, -27.3637892];
 

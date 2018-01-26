@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityRepository;
 use Matudelatower\UbicacionBundle\Form\EventListener\AddDepartamentoFieldSubscriber;
 use Matudelatower\UbicacionBundle\Form\EventListener\AddLocalidadFieldSubscriber;
 use Matudelatower\UbicacionBundle\Form\EventListener\AddPaisFieldSubscriber;
-use Matudelatower\UbicacionBundle\Form\EventListener\AddProvinciaFieldSubscriber;   
+use Matudelatower\UbicacionBundle\Form\EventListener\AddProvinciaFieldSubscriber;
 use Matudelatower\UbicacionBundle\Form\Type\MatudelatowerLocalidadType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,22 +32,24 @@ class DireccionType extends AbstractType
 
         $empresa = $this->empresaManager->getEmpresaLogueada();
 
-        $localidad = $empresa->getDireccion()->getLocalidad();
+        $localidad = false;
+        if ($empresa) {
+            $localidad = $empresa->getDireccion()->getLocalidad();
+        }
 
-        $builder->addEventSubscriber( new AddPaisFieldSubscriber( $factory ) );
-        $builder->addEventSubscriber( new AddProvinciaFieldSubscriber( $factory ) );
-        $builder->addEventSubscriber( new AddDepartamentoFieldSubscriber( $factory ) );
-        $builder->addEventSubscriber( new AddLocalidadFieldSubscriber( $factory, $localidad ) );
+
+        $builder->addEventSubscriber(new AddPaisFieldSubscriber($factory));
+        $builder->addEventSubscriber(new AddProvinciaFieldSubscriber($factory));
+        $builder->addEventSubscriber(new AddDepartamentoFieldSubscriber($factory));
+        $builder->addEventSubscriber(new AddLocalidadFieldSubscriber($factory, $localidad));
 
         $builder
-
             ->add('nombre')
             ->add('calle')
             ->add('altura')
             ->add('dpto')
             ->add('piso')
-            ->add('edificio')
-            ;
+            ->add('edificio');
 
 
     }

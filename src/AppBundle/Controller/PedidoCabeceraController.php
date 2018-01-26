@@ -85,6 +85,8 @@ class PedidoCabeceraController extends Controller
             foreach ($sectores as $sector) {
                 $sectoresArray [] = array(
                     'id'=> $sector->getId(),
+                    'nombre'=> $sector->getNombre(),
+                    'cantidadColumnas'=> $sector->getCantidadColumnas(),
                     'mesas'=> $sector->getMatrixMesa(),
                 );
             }

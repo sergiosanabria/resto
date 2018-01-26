@@ -144,7 +144,7 @@ class EmpresaController extends Controller
      * Lista las empresas asiciadas al usuario
      *
      */
-    public function choiceAction(Request $request)
+    public function     choiceAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -169,6 +169,8 @@ class EmpresaController extends Controller
             ));
         }
 
+
+        return $this->redirectToRoute('app_homepage');
 
     }
 }

@@ -74,9 +74,11 @@ class SectorMesa extends BaseClass
         foreach ($mesas as $mesa) {
             if ($mesa->getActivo()){
                 $mesasMatrix[(int)$mesa->getColumna()][(int)$mesa->getFila()] = array(
-                    "nombre" => $mesa->getNombre(),
                     "id" => $mesa->getId(),
+                    "estado" => $mesa->getEstado(),
+                    "nombre" => $mesa->getNombre(),
                     "creado" => true,
+
                 );
             }
         }

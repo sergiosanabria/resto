@@ -28,8 +28,9 @@ class ProductoRepository extends EntityRepository
     public function getListado($filters, $empresa)
     {
         $qb = $this->createQueryBuilder('producto')
-            ->andWhere("producto.empresa = :empresa")
-            ->setParameter("empresa", $empresa);
+//            ->andWhere("producto.empresa = :empresa")
+//            ->setParameter("empresa", $empresa)
+        ;
         ;
         if (isset($filters["nombre"])) {
             $q = $filters["nombre"];

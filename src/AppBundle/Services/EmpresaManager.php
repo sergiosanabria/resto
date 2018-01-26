@@ -24,7 +24,12 @@ class EmpresaManager
 
         $empresaId = $this->session->get("empresaId");
 
-        return $this->em->getRepository("AppBundle:Empresa")->find($empresaId);
+        if ($empresaId) {
+            return $this->em->getRepository("AppBundle:Empresa")->find($empresaId);
+        } else {
+            return null;
+        }
+
 
     }
 
